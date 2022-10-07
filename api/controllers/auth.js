@@ -22,14 +22,15 @@ const register=async(req,res,next)=>{
 const login=async(req,res,next)=>{
     try{ 
       const user= await User.findOne({username:req.body.username})
+      console.log(user._id);
       if(!user) next(createError(404,"User not found"))
       const isPasswordCorrect=await bcrypt.compareSync(req.body.password, user.password);
       if(!isPasswordCorrect) next(createError(400,"Wrong Password"));
 
       const token=jwt.sign(
-        { username:user.username,isAdmin:user.isAdmin },
+        { id:user._id,isAdmin:user.isAdmin},
         process.env.JWT_SECRETKEY);
-        
+
       const {password,isAdmin, ...otherDetails}=user._doc;
 
       res.cookie("access_token",token,{

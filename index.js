@@ -22,9 +22,9 @@ const connect= async ()=>{
 mongoose.connection.on("disconnected",()=>{
     console.log("MongoDB disconnected");
 })
-// mongoose.connection.on("connected",()=>{
-//     console.log("MongoDB connected");
-// })
+mongoose.connection.on("connected",()=>{
+    console.log("MongoDB connected");
+})
 
 app.use(bodyParser.json({ limit: '50mb', extended: true }));
 app.use(bodyParser.urlencoded({limit: '50mb', extended: true}));
